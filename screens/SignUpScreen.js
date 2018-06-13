@@ -45,10 +45,10 @@ export default class SignUpScreen extends AuthScreen {
     logger.debug(`Sign Up for ${email}`);
     logger.debug(this.state);
     Auth.signUp({
-      username: email,
+      username: email.toLowerCase().trim(),
       password,
       attributes: {
-        email
+        email: email.toLowerCase().trim()
       }
     })
       .then(data => {

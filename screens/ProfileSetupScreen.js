@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, StatusBar } from "react-native";
 import { Content, Input, Item, Picker } from "native-base";
 import { Auth } from "aws-amplify";
 import { NavigationActions } from "react-navigation";
@@ -25,7 +25,15 @@ export default class ProfileSetupScreen extends Component {
       lastName: user.attributes.family_name || "",
       gender: user.attributes.gender || ""
     });
+
+    this._navListener = this.props.navigation.addListener("didFocus", () => {
+      StatusBar.setBarStyle("dark-content");
+    });
   };
+
+  componentWillUnmount() {
+    this._navListener.remove();
+  }
 
   render() {
     return (

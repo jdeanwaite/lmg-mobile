@@ -19,6 +19,16 @@ export default class SignInScreen extends AuthScreen {
     loading: false
   };
 
+  componentDidMount() {
+    console.log("Did mount");
+    const { params } = this.props.navigation.state || {};
+    const email = (params && params.authData) || null;
+    console.log('Email', email);
+    if (email && typeof email === "string") {
+      this.setState({ email: email });
+    }
+  }
+
   checkContact = user => {
     Auth.verifiedContact(user).then(data => {
       logger.debug("verified user attributes", data);
@@ -35,7 +45,7 @@ export default class SignInScreen extends AuthScreen {
     const { username, password } = this.state;
     logger.debug(`Sign In for ${username}`);
     this.setState({ loading: true });
-    Auth.signIn(username, password)
+    Auth.signIn(username.toLowerCase().trim(), password)
       .then(user => {
         this.setState({ loading: false });
         logger.debug(user);

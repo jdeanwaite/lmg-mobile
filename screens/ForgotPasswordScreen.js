@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Item, Input, Button, Content } from "native-base";
+import { View, Text, Item, Input, Content } from "native-base";
 import { Auth, I18n, Logger } from "aws-amplify";
 import AuthScreen from "./AuthScreen";
+import RoundedButton from "../components/RoundedButton";
 
 const logger = new Logger("ForgotPassword");
 
@@ -9,9 +10,9 @@ const Footer = props => {
   const { onAuthStateChange } = props;
   return (
     <View style={styles.footer}>
-      <Button transparent primary onPress={() => onAuthStateChange("signIn")}>
-        <Text>{I18n.get("Back to Sign In")}</Text>
-      </Button>
+      <RoundedButton clear onPress={() => onAuthStateChange("signIn")}>
+        {I18n.get("Back to Sign In")}
+      </RoundedButton>
     </View>
   );
 };
@@ -19,9 +20,11 @@ const Footer = props => {
 export default class ForgotPasswordScreen extends AuthScreen {
   state = {
     delivery: null,
-    email: null,
-    code: null,
-    password: null
+    email: "",
+    code: "",
+    password: "",
+    confirmPassword: "",
+    loading: false
   };
 
   send = () => {
@@ -30,22 +33,30 @@ export default class ForgotPasswordScreen extends AuthScreen {
       this.error("Email cannot be empty");
       return;
     }
+    this.setState({ loading: true });
     Auth.forgotPassword(email)
       .then(data => {
         logger.debug(data);
-        this.setState({ delivery: data.CodeDeliveryDetails });
+        this.setState({ delivery: data.CodeDeliveryDetails, loading: false });
       })
       .catch(err => this.error(err));
   };
 
   submit = () => {
-    const { email, code, password } = this.state;
+    const { email, code, password, confirmPassword } = this.state;
+    if (password !== confirmPassword) {
+      return this.error("Passwords do not match!");
+    }
+    this.setState({ loading: true });
     Auth.forgotPasswordSubmit(email, code, password)
       .then(data => {
         logger.debug(data);
         this.onAuthStateChange("signIn");
       })
-      .catch(err => this.error(err));
+      .catch(err => {
+        this.error(err);
+        this.setState({ loading: false });
+      });
   };
 
   forgotBody() {
@@ -61,15 +72,15 @@ export default class ForgotPasswordScreen extends AuthScreen {
             autoCorrect={false}
           />
         </Item>
-        <Button
+        <RoundedButton
           block
-          primary
+          loading={this.state.loading}
           disabled={!this.state.email}
           onPress={this.send}
           style={styles.button}
         >
-          <Text>Submit</Text>
-        </Button>
+          Submit
+        </RoundedButton>
       </View>
     );
   }
@@ -79,7 +90,7 @@ export default class ForgotPasswordScreen extends AuthScreen {
       <View>
         <Item>
           <Input
-            placeholder="Confirmation Code"
+            placeholder="Confirmation code"
             value={this.state.code}
             onChangeText={text => this.setState({ code: text })}
             autoCapitalize="none"
@@ -88,7 +99,7 @@ export default class ForgotPasswordScreen extends AuthScreen {
         </Item>
         <Item>
           <Input
-            placeholder="New Password"
+            placeholder="New password"
             value={this.state.password}
             onChangeText={text => this.setState({ password: text })}
             autoCapitalize="none"
@@ -96,15 +107,25 @@ export default class ForgotPasswordScreen extends AuthScreen {
             secureTextEntry
           />
         </Item>
-        <Button
+        <Item>
+          <Input
+            placeholder="Confirm password"
+            value={this.state.confirmPassword}
+            onChangeText={confirmPassword => this.setState({ confirmPassword })}
+            autoCapitalize="none"
+            autoCorrect={false}
+            secureTextEntry
+          />
+        </Item>
+        <RoundedButton
           block
-          primary
+          loading={this.state.loading}
           onPress={this.submit}
           disabled={!this.state.code || !this.state.password}
           style={styles.button}
         >
-          <Text>Submit</Text>
-        </Button>
+          Submit
+        </RoundedButton>
       </View>
     );
   }

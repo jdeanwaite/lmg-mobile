@@ -41,7 +41,7 @@ export default class ConfirmSignUpScreen extends AuthScreen {
     this.setState({ loading: true });
     logger.debug(`Confirm Sign Up for ${email}`);
     Auth.confirmSignUp(email, code)
-      .then(() => this.onAuthStateChange("signedUp"))
+      .then(() => this.onAuthStateChange("signedUp", email))
       .catch(err => {
         this.setState({ loading: false });
         this.error(err);

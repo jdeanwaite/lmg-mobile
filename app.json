@@ -8,7 +8,7 @@
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/expo-icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -21,11 +21,15 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.learnmygospel.app"
+      "bundleIdentifier": "com.learnmygospel.app",
+      "icon": "./assets/images/icon.png"
     },
     "androidStatusBar": {
       "backgroundColor": "#004038",
       "package": "com.learnmygospel.app"
+    },
+    "android": {
+      "icon": "./assets/images/icon.png"
     },
     "scheme": "learnmygospel"
   }

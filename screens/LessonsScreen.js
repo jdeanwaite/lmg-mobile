@@ -10,9 +10,9 @@ import { Query } from "react-apollo";
 import AllLessonsQuery from "../queries/AllLessonsQuery";
 import LessonList from "../components/LessonList";
 import LoadingScreen from "./LoadingScreen";
-import AuthService from '../api/AuthService'
-import { Auth } from 'aws-amplify/lib/index'
-import { isProfileComplete } from '../api/profile'
+import AuthService from "../api/AuthService";
+import { Auth } from "aws-amplify/lib/index";
+import { isProfileComplete } from "../api/profile";
 
 export default class LessonsScreen extends Component {
   static navigationOptions = {
@@ -21,7 +21,7 @@ export default class LessonsScreen extends Component {
 
   componentDidMount = async () => {
     await this.checkProfileStatus();
-  }
+  };
 
   checkProfileStatus = async () => {
     try {
@@ -42,7 +42,11 @@ export default class LessonsScreen extends Component {
     return (
       <Query query={AllLessonsQuery} fetchPolicy="cache-and-network">
         {({ data, loading, error }) => {
-          if (loading) {
+          if (
+            loading &&
+            (!data || !data.allLessons || !data.allLessons.length)
+          ) {
+            console.log('loading data still')
             return <LoadingScreen />;
           } else if (error) {
             console.log("Error in LessonsScreen", error);

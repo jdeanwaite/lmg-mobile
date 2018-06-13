@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Item, Input, Button, Content } from "native-base";
+import { View, Text, Item, Input, Content } from "native-base";
 import { Auth, I18n, Logger } from "aws-amplify";
 import AuthScreen from "./AuthScreen";
+import RoundedButton from '../components/RoundedButton'
 
 const logger = new Logger("RequireNewPassword");
 
@@ -9,16 +10,17 @@ const Footer = props => {
   const { onAuthStateChange } = props;
   return (
     <View style={styles.footer}>
-      <Button transparent primary onPress={() => onAuthStateChange("signIn")}>
-        <Text>{I18n.get("Back to Sign In")}</Text>
-      </Button>
+      <RoundedButton clear onPress={() => onAuthStateChange("signIn")}>
+        {I18n.get("Back to Sign In")}
+      </RoundedButton>
     </View>
   );
 };
 
 export default class RequireNewPasswordScreen extends AuthScreen {
   state = {
-    password: null
+    password: null,
+    loading: false
   };
 
   change = () => {
@@ -55,15 +57,15 @@ export default class RequireNewPasswordScreen extends AuthScreen {
           />
         </Item>
         <View>
-          <Button
+          <RoundedButton
             block
-            primary
+            loading={this.state.loading}
             disabled={!this.state.password}
             onPress={this.change}
             style={styles.button}
           >
             <Text>Change Password</Text>
-          </Button>
+          </RoundedButton>
         </View>
         {this.state.error && (
           <Text style={styles.error}>{this.state.error}</Text>
