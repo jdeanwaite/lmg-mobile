@@ -1,61 +1,77 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from "react";
+import { Platform } from "react-native";
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import TabBarIcon from "../components/TabBarIcon";
+import SettingsScreen from "../screens/SettingsScreen";
+import LessonStack from "./LessonStackNavigator";
+import Colors from "../constants/Colors";
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-});
+// LessonStack.navigationOptions = {
+//
+// };
+//
+// const LinksStack = createStackNavigator({
+//   Links: LinksScreen,
+// });
+//
+// LinksStack.navigationOptions = {
+//   tabBarLabel: 'Links',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
+//     />
+//   ),
+// };
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+const SettingsStack = createStackNavigator(
+  {
+    Settings: SettingsScreen
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: Colors.tintColor
+      },
+      headerTintColor: "#fff"
+    }
+  }
+);
+
+SettingsStack.navigationOptions = {
+  tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+        Platform.OS === "ios"
+          ? `ios-contact${focused ? "" : "-outline"}`
+          : "md-contact"
       }
     />
-  ),
+  )
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
+const MainTabNavigator = createBottomTabNavigator(
+  {
+    LessonStack,
+    // LinksStack,
+    SettingsStack
+  },
+  {
+    tabBarOptions: {
+      style: { backgroundColor: Colors.tintColor },
+      activeTintColor: "#fff"
+    }
+  }
+);
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'}
-    />
-  ),
-};
+// MainTabNavigator.navigationOptions = ({ navigation }) => ({
+//   header: null
+// });
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
-    />
-  ),
-};
-
-export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
-});
+export default MainTabNavigator;

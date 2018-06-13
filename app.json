@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "lmg-mobile",
-    "description": "A very interesting project.",
-    "slug": "lmg-mobile",
+    "name": "Learn My Gospel",
+    "description": "Study and prepare to teach the gospel of Jesus Christ.",
+    "slug": "learn-my-gospel",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
@@ -12,16 +12,21 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#00695C"
     },
+    "primaryColor": "#004038",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.learnmygospel.app"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#004038",
+      "package": "com.learnmygospel.app"
+    },
+    "scheme": "learnmygospel"
   }
 }

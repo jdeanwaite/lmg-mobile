@@ -1,15 +1,25 @@
-import React from 'react';
-import { Notifications } from 'expo';
-import { createSwitchNavigator } from 'react-navigation';
+import React from "react";
+import { Notifications } from "expo";
+import { createSwitchNavigator } from "react-navigation";
 
-import MainTabNavigator from './MainTabNavigator';
-import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import MainTabNavigator from "./MainTabNavigator";
+import registerForPushNotificationsAsync from "../api/registerForPushNotificationsAsync";
+import AuthStackNavigator from "./AuthStackNavigator";
+import NavigationService from "../api/NavigationService";
+import MainStackNavigator from './MainStackNavigator'
 
-const AppNavigator = createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-});
+const AppNavigator = createSwitchNavigator(
+  {
+    // You could add another route here for authentication.
+    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+    Auth: AuthStackNavigator,
+    // AuthLoading: AuthLoadingScreen,
+    Main: MainStackNavigator
+  },
+  {
+    initialRouteName: "Auth"
+  }
+);
 
 export default class RootNavigation extends React.Component {
   componentDidMount() {
@@ -21,7 +31,9 @@ export default class RootNavigation extends React.Component {
   }
 
   render() {
-    return <AppNavigator />;
+    return (
+      <AppNavigator ref={ref => NavigationService.setTopLevelNavigator(ref)} />
+    );
   }
 
   _registerForPushNotifications() {
@@ -32,10 +44,14 @@ export default class RootNavigation extends React.Component {
     registerForPushNotificationsAsync();
 
     // Watch for incoming notifications
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
   }
 
   _handleNotification = ({ origin, data }) => {
-    console.log(`Push notification ${origin} with data: ${JSON.stringify(data)}`);
+    console.log(
+      `Push notification ${origin} with data: ${JSON.stringify(data)}`
+    );
   };
 }

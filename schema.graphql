@@ -1,0 +1,45 @@
+type Lesson {
+  id: ID
+  name: String
+  principles: [Principle]
+}
+
+type Principle {
+  id: ID
+  lessonId: ID
+  name: String
+  doctrineMarkdown: String
+  teachingMarkdown: String
+  pointsToTeachMarkdown: String
+  videoRefs: [VideoRef]
+  scriptureGroups: [ScriptureGroup]
+  reflectPrompts: [String]
+  enabled: Int
+}
+
+type Query {
+  allLessons: [Lesson]
+  lesson(id: ID!): Lesson
+}
+
+type Scripture {
+  id: ID
+  text: String
+  link: String
+}
+
+type ScriptureGroup {
+  id: ID
+  title: String
+  scriptures: [Scripture]
+}
+
+type VideoRef {
+  id: ID
+  title: String
+  link: String
+}
+
+schema {
+  query: Query
+}
