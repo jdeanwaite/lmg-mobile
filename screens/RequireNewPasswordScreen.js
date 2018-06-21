@@ -24,15 +24,10 @@ export default class RequireNewPasswordScreen extends AuthScreen {
   };
 
   change = () => {
-    console.log("props", this.props);
     const user = this.props.navigation.state.params.authData;
     const { password } = this.state;
-    logger.debug(`Require new password for ${user.username}`);
-    Auth.completeNewPassword(user, password, {
-      gender: "male",
-      firstName: "Doe",
-      lastName: "John"
-    })
+    console.log(`Require new password for ${user}`);
+    Auth.completeNewPassword(user, password)
       .then(() => {
         if (user.challengeName === "SMS_MFA") {
           this.onAuthStateChange("confirmSignIn", user);
@@ -64,7 +59,7 @@ export default class RequireNewPasswordScreen extends AuthScreen {
             onPress={this.change}
             style={styles.button}
           >
-            <Text>Change Password</Text>
+            Change Password
           </RoundedButton>
         </View>
         {this.state.error && (

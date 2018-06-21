@@ -8,6 +8,7 @@ import WhatWeTeachScreen from "../screens/WhatWeTeachScreen";
 import ScripturesScreen from "../screens/ScripturesScreen";
 import VideosScreen from "../screens/VideosScreen";
 import StudyPromptsScreen from "../screens/StudyPromptsScreen";
+import PracticeTeachingInstructionsScreen from '../screens/PracticeTeachingInstructionsScreen'
 
 const PrincipleDrawerNavigator = createDrawerNavigator(
   {
@@ -15,7 +16,8 @@ const PrincipleDrawerNavigator = createDrawerNavigator(
     ["What We Teach"]: WhatWeTeachScreen,
     Scriptures: ScripturesScreen,
     Videos: VideosScreen,
-    ["Study Prompts"]: StudyPromptsScreen
+    ["Study Prompts"]: StudyPromptsScreen,
+    ["Practice Teaching"]: PracticeTeachingInstructionsScreen,
   },
   {
     drawerPosition: "right",
@@ -25,7 +27,8 @@ const PrincipleDrawerNavigator = createDrawerNavigator(
       "What We Teach",
       "Scriptures",
       "Videos",
-      "Study Prompts"
+      "Study Prompts",
+      "Practice Teaching"
     ],
     contentOptions: {
       activeTintColor: Colors.tintColor
@@ -41,7 +44,7 @@ PrincipleDrawerNavigator.navigationOptions = ({ navigation }) => {
     title,
     headerRight: (
       <HeaderIconButton
-        iconName="toc"
+        iconName="menu"
         onPress={() => navigation.toggleDrawer()}
       />
     ),

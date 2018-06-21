@@ -21,7 +21,7 @@ export default class MarkdownViewer extends Component {
 
 const styles = StyleSheet.create({
   markdownContainer: {
-    padding: 20
+    paddingHorizontal: 20
   }
 });
 

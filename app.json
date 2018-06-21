@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/expo-icon.png",
     "splash": {
@@ -14,7 +14,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#00695C"
     },
-    "primaryColor": "#004038",
+    "primaryColor": "#00695C",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -25,11 +25,12 @@
       "icon": "./assets/images/icon.png"
     },
     "androidStatusBar": {
-      "backgroundColor": "#004038",
-      "package": "com.learnmygospel.app"
+      "backgroundColor": "#004038"
     },
     "android": {
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/android-icon.png",
+      "package": "com.learnmygospel.app",
+      "versionCode": 3
     },
     "scheme": "learnmygospel"
   }

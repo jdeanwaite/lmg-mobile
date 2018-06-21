@@ -6,12 +6,19 @@ import PrincipleDrawerNavigator from "./PrincipleDrawerNavigator";
 import Colors from "../constants/Colors";
 import { Platform } from "react-native";
 import TabBarIcon from "../components/TabBarIcon";
+import PracticeTeachingStackNavigator from "./PracticeTeachingStackNavigator";
 
 const LessonStack = createStackNavigator(
   {
     Lessons: LessonsScreen,
     Principles: PrinciplesScreen,
-    Principle: PrincipleDrawerNavigator
+    Principle: PrincipleDrawerNavigator,
+    PracticeTeaching: {
+      screen: PracticeTeachingStackNavigator,
+      navigationOptions: {
+        header: null
+      }
+    }
   },
   {
     navigationOptions: {
@@ -25,7 +32,6 @@ const LessonStack = createStackNavigator(
 
 LessonStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = navigation.state.index === 0;
-  console.log("visible:", tabBarVisible);
   return {
     tabBarVisible,
     tabBarLabel: "Lessons",

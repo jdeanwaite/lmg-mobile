@@ -14,7 +14,7 @@ export default class ProfileSetupScreen extends Component {
   state = {
     firstName: "",
     lastName: "",
-    gender: "",
+    gender: "male",
     loading: false
   };
 
@@ -23,7 +23,7 @@ export default class ProfileSetupScreen extends Component {
     this.setState({
       firstName: user.attributes.given_name || "",
       lastName: user.attributes.family_name || "",
-      gender: user.attributes.gender || ""
+      gender: user.attributes.gender || "male"
     });
 
     this._navListener = this.props.navigation.addListener("didFocus", () => {
@@ -62,7 +62,7 @@ export default class ProfileSetupScreen extends Component {
             mode="dropdown"
             placeholder="Gender"
             selectedValue={this.state.gender}
-            onValueChange={gender => this.setState({ gender })}
+            onValueChange={this.setGender}
             placeholderStyle={Platform.OS === "ios" ? { paddingLeft: 5 } : {}}
             textStyle={Platform.OS === "ios" ? { paddingLeft: 5 } : {}}
             headerTitleStyle={{ color: "#fff" }}
@@ -82,6 +82,10 @@ export default class ProfileSetupScreen extends Component {
     );
   }
 
+  setGender = (gender) => {
+    this.setState({gender});
+  }
+
   onSavePressed = async () => {
     const { firstName, lastName, gender } = this.state;
     if (!firstName || !lastName || !gender) {
@@ -90,11 +94,15 @@ export default class ProfileSetupScreen extends Component {
 
     this.setState({ loading: true });
     const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
-      given_name: firstName,
-      family_name: lastName,
-      gender
-    });
+    try {
+      await Auth.updateUserAttributes(user, {
+        given_name: firstName,
+        family_name: lastName,
+        gender
+      });
+    } catch(err) {
+      console.log('Error saving profile:', err);
+    }
     this.setState({ loading: false });
 
     this.props.navigation.dispatch(NavigationActions.back());

@@ -19,7 +19,7 @@ const MainStackNavigator = createStackNavigator(
         header: null,
         gesturesEnabled: false
       }
-    }
+    },
   },
   {
     initialRouteName: "MainTabs",
