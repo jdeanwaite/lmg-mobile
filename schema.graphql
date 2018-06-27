@@ -4,6 +4,10 @@ type Lesson {
   principles: [Principle]
 }
 
+type Mutation {
+  updateScore(principleId: ID!, updatedAt: String): Score
+}
+
 type Principle {
   id: ID
   lessonId: ID
@@ -20,6 +24,15 @@ type Principle {
 type Query {
   allLessons: [Lesson]
   lesson(id: ID!): Lesson
+  allScores: [Score]
+  score(principleId: ID!): Score
+}
+
+type Score {
+  id: ID
+  principleId: ID
+  updatedAt: String
+  value: Int
 }
 
 type Scripture {
@@ -42,4 +55,5 @@ type VideoRef {
 
 schema {
   query: Query
+  mutation: Mutation
 }

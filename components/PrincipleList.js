@@ -8,17 +8,30 @@ import {
   FlatList
 } from "react-native";
 import PropTypes from "prop-types";
+// import Moment from 'react-moment';
 import { ListItem } from "react-native-elements";
 import Separator, { SeparatorInsets } from "./Separator";
+import withScores from "../providers/withScores";
+import Score from "./Score";
+import { calculateActualValue } from "../api/scoreCalc";
+import Moment from "moment";
 
-export default class PrincipleList extends Component {
+class PrincipleList extends Component {
   renderItem = ({ item }) => {
+    const percentage = item.scoreValue / 20;
     return (
       <ListItem
         title={item.name}
+        titleStyle={styles.title}
+        subtitle={
+          "Last studied: " +
+          ((item.scoreValue && item.lastStudied && Moment(item.lastStudied).fromNow()) || "Never")
+        }
+        subtitleStyle={styles.subtitle}
         // subtitle={`${item.principles.length} principles`}
         // subtitleStyle={styles.subtitle}
-        onPress={this.onPrinciplePressed(item.id)}
+        onPress={this.onPrinciplePressed(item)}
+        rightElement={<Score value={percentage} />}
         chevron
       />
     );
@@ -27,14 +40,22 @@ export default class PrincipleList extends Component {
   keyExtractor = item => item.id;
 
   render() {
-    const { lesson } = this.props;
+    const { lesson, scores } = this.props;
+    const principles = lesson.principles.map(p => {
+      const score = scores.find(s => s.principleId === p.id);
+      return {
+        ...p,
+        scoreValue: calculateActualValue(score) || 0,
+        lastStudied: score && score.updatedAt
+      };
+    });
 
     return (
       <View style={styles.container}>
         <FlatList
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
-          data={lesson.principles}
+          data={principles}
           ItemSeparatorComponent={() => (
             <Separator leftInset={SeparatorInsets.text} />
           )}
@@ -43,12 +64,10 @@ export default class PrincipleList extends Component {
     );
   }
 
-  onPrinciplePressed = id => {
+  onPrinciplePressed = principle => {
     return () => {
       if (this.props.onPrincipleSelected) {
-        this.props.onPrincipleSelected(
-          this.props.lesson.principles.find(p => p.id === id)
-        );
+        this.props.onPrincipleSelected(principle);
       }
     };
   };
@@ -60,7 +79,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   subtitle: {
-    color: "rgba(0, 0, 0, .54)"
+    color: "rgba(0, 0, 0, .38)",
+    marginTop: 8
+  },
+  title: {
+    fontWeight: "500"
   }
 });
 
@@ -75,3 +98,5 @@ PrincipleList.defaultProps = {
     principles: []
   }
 };
+
+export default withScores(PrincipleList);

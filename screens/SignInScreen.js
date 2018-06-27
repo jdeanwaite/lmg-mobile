@@ -4,12 +4,17 @@ import { StyleSheet } from "react-native";
 import { Container, Content, Item, Input, View, Text } from "native-base";
 import AuthScreen from "./AuthScreen";
 import RoundedButton from "../components/RoundedButton";
+import Colors from '../constants/Colors'
 
 const logger = new Logger("SignIn");
 
 export default class SignInScreen extends AuthScreen {
   static navigationOptions = {
-    title: "Sign in"
+    title: "Sign in",
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: Colors.tintColor
+    }
   };
 
   state = {

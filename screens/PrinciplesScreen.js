@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import LessonQuery from "../queries/LessonQuery";
 import LoadingScreen from "./LoadingScreen";
 import PrincipleList from "../components/PrincipleList";
+import withScores from '../providers/withScores'
 
 export default class PrinciplesScreen extends Component {
   static navigationOptions = {

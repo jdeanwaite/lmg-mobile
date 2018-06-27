@@ -6,6 +6,7 @@ import AuthService from "../api/AuthService";
 import Separator from "../components/Separator";
 import { ListItem } from "react-native-elements";
 import { isProfileComplete } from "../api/profile";
+import { apolloClient} from '../api/apolloClient';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -55,6 +56,8 @@ export default class SettingsScreen extends React.Component {
   }
 
   signOut = async () => {
+    await apolloClient.resetStore();
+    await apolloClient.cache.reset();
     await Auth.signOut();
     AuthService.setAuthState("signedOut", null);
   };

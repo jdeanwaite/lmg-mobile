@@ -20,7 +20,7 @@ const AuthStackNavigator = createStackNavigator(
   {
     navigationOptions: {
       headerStyle: {
-        backgroundColor: Colors.tintColor
+        backgroundColor: Colors.tintColor,
       },
       headerTintColor: "#fff"
     }

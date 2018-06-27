@@ -53,7 +53,8 @@ SettingsStack.navigationOptions = {
           : "md-contact"
       }
     />
-  )
+  ),
+  tabBarInactiveColor: 'red'
 };
 
 const MainTabNavigator = createBottomTabNavigator(
@@ -65,7 +66,8 @@ const MainTabNavigator = createBottomTabNavigator(
   {
     tabBarOptions: {
       style: { backgroundColor: Colors.tintColor },
-      activeTintColor: "#fff"
+      activeTintColor: "#fff",
+      inactiveTintColor: Colors.tabIconDefault
     }
   }
 );
