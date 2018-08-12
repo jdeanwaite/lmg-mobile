@@ -2,10 +2,10 @@ import React from "react";
 import { createDrawerNavigator, createStackNavigator } from "react-navigation";
 import { Button, View } from "react-native";
 import { compose, graphql } from "react-apollo";
-import DoctrineScreen from "../screens/DoctrineScreen";
+import PreachMyGospelScreen from "../screens/PreachMyGospelScreen";
 import HeaderIconButton from "../components/HeaderIconButton";
 import Colors from "../constants/Colors";
-import WhatWeTeachScreen from "../screens/WhatWeTeachScreen";
+import PamphletPrincipleScreen from "../screens/PamphletPrincipleScreen";
 import ScripturesScreen from "../screens/ScripturesScreen";
 import VideosScreen from "../screens/VideosScreen";
 import StudyPromptsScreen from "../screens/StudyPromptsScreen";
@@ -17,19 +17,19 @@ import { RefetchQueriesProviderFn } from "react-apollo/types";
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    Doctrine: DoctrineScreen,
-    ["What We Teach"]: WhatWeTeachScreen,
+    "Preach My Gospel": PreachMyGospelScreen,
+    "Pamphlet Principle": PamphletPrincipleScreen,
     Scriptures: ScripturesScreen,
     Videos: VideosScreen,
-    ["Study Prompts"]: StudyPromptsScreen,
-    ["Practice Teaching"]: PracticeTeachingInstructionsScreen
+    "Study Prompts": StudyPromptsScreen,
+    "Practice Teaching": PracticeTeachingInstructionsScreen
   },
   {
     drawerPosition: "right",
     backBehavior: "none",
     order: [
-      "Doctrine",
-      "What We Teach",
+      "Preach My Gospel",
+      "Pamphlet Principle",
       "Scriptures",
       "Videos",
       "Study Prompts",

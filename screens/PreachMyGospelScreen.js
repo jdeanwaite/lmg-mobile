@@ -12,10 +12,10 @@ import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
 import MarkdownViewer from "../components/MarkdownViewer";
 
-export default class DoctrineScreen extends Component {
+export default class PreachMyGospelScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Doctrine"
+      title: "Preach My Gospel"
     };
   };
 

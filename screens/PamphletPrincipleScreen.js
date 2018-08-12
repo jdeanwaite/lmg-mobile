@@ -12,10 +12,10 @@ import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
 import MarkdownViewer from "../components/MarkdownViewer";
 
-export default class WhatWeTeachScreen extends Component {
+export default class PamphletPrincipleScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "What We Teach"
+      title: "Pamphlet Principle"
     };
   };
 
