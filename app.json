@@ -22,7 +22,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.learnmygospel.app",
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/icon.png",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["gospellibrary", "fb-messenger"]
+      }
     },
     "androidStatusBar": {
       "backgroundColor": "#004C40"
