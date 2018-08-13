@@ -22,30 +22,75 @@ const Footer = props => {
 
 export default class ConfirmSignUpScreen extends AuthScreen {
   static navigationOptions = {
-    title: 'Confirm Email'
-  }
+    title: "Confirm Email"
+  };
 
   state = {
     email: null,
+    password: null,
     code: null,
     loading: false
   };
 
   constructor(props) {
     super(props);
-    this.state.email = props.navigation.state.params.authData || null;
+    const { authData } = props.navigation.state.params || {};
+    const { email, password } = authData || {};
+    this.state.email = email || null;
+    this.state.password = password || null;
   }
 
-  confirm = () => {
-    const { email, code } = this.state;
+  confirm = async () => {
+    const { email, code, password } = this.state;
     this.setState({ loading: true });
     logger.debug(`Confirm Sign Up for ${email}`);
-    Auth.confirmSignUp(email, code)
-      .then(() => this.onAuthStateChange("signedUp", email))
-      .catch(err => {
-        this.setState({ loading: false });
-        this.error(err);
-      });
+    try {
+      await Auth.confirmSignUp(email, code);
+      this.onAuthStateChange("signedUp", email);
+      if (password) {
+        await this.signIn();
+      }
+    } catch (err) {
+      this.setState({ loading: false });
+      this.error(err);
+    }
+  };
+
+  checkContact = async user => {
+    try {
+      const data = await Auth.verifiedContact(user);
+      logger.debug("verified user attributes", data);
+      if (data.verified) {
+        this.onAuthStateChange("signedIn", user);
+      } else {
+        const userWithData = Object.assign({}, user, data);
+        this.onAuthStateChange("verifyContact", userWithData);
+      }
+    } catch (err) {
+      console.log("Unable to check contact upon signup -> signin");
+    }
+  };
+
+  signIn = async () => {
+    const { email, password } = this.state;
+    logger.debug(`Sign In for ${email}`);
+    this.setState({ loading: true });
+    try {
+      const user = await Auth.signIn(email.toLowerCase().trim(), password);
+      this.setState({ loading: false });
+      logger.debug(user);
+      if (user.challengeName === "SMS_MFA") {
+        this.onAuthStateChange("confirmSignIn", user);
+      } else if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        logger.debug("require new password", user.challengeParam);
+        this.onAuthStateChange("requireNewPassword", user);
+      } else {
+        await this.checkContact(user);
+      }
+    } catch (err) {
+      this.setState({ loading: false });
+      this.error(err);
+    }
   };
 
   resend = () => {

@@ -101,7 +101,6 @@ export default class AppAuthProvider extends React.Component {
 const mapAuthStateToAuthRouteName = authState => {
   switch (authState) {
     case "signIn":
-    case "signedUp":
       return "SignIn";
     case "signUp":
       return "SignUp";

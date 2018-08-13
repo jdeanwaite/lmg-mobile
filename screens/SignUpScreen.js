@@ -54,7 +54,7 @@ export default class SignUpScreen extends AuthScreen {
       .then(data => {
         this.setState({ loading: false });
         logger.debug(data);
-        this.onAuthStateChange("confirmSignUp", email);
+        this.onAuthStateChange("confirmSignUp", {email, password});
       })
       .catch(err => {
         this.setState({ loading: false });
